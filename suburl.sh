@@ -93,7 +93,7 @@ step "SUBDOMAIN ENUMERATION & URL DISCOVERY"
   cat  "$DOMAIN/subfinder.txt" "$DOMAIN/ghsubs.txt" "$DOMAIN/crt.txt" "$DOMAIN/puredns.txt" "$DOMAIN/tlsx.txt" | anew "$DOMAIN/subs.txt" > /dev/null ; rm "$DOMAIN/crt.txt" "$DOMAIN/subfinder.txt" "$DOMAIN/ghsubs.txt" "$DOMAIN/puredns.txt" "$DOMAIN/tlsx.txt" 2> /dev/null
 
 
-  echo "$DOMAIN" | gauplus -t "$GAU_THREADS" -random-agent > "$DOMAIN/gauplus.txt" 2>/dev/null &
+  echo "$DOMAIN" | gauplus -subs -t "$GAU_THREADS" -random-agent > "$DOMAIN/gauplus.txt" 2>/dev/null &
   echo "$DOMAIN" | waybackurls  > "$DOMAIN/waybackurls.txt" 2>/dev/null &
   waymore -i "$DOMAIN" -mode U -oU "$DOMAIN/waymore.txt" >/dev/null 1>&2 &
   katana -u "$DOMAIN/subs.txt" -kf all -silent -o "$DOMAIN/katana.txt" >/dev/null 2>&1 &
