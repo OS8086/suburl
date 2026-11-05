@@ -1,5 +1,9 @@
 # suburl
 
+<p align="center">
+  <img src="assets/flow.png" alt="suburl workflow" width="800">
+</p>
+
 A lightweight bash automation script that chains together popular subdomain enumeration and URL discovery tools into a single recon pipeline for a target domain.
 
 It runs passive/active subdomain discovery, historical & live URL collection, then filters the results for sensitive files, JS endpoints, and potential SSRF/SQLi injection points.
