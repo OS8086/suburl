@@ -103,27 +103,26 @@ step "SUBDOMAIN ENUMERATION & URL DISCOVERY"
     | tr -d '\r' \
     | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
     | grep -E '^https?://' > "$DOMAIN/all_urls.txt" 2> /dev/null; rm "$DOMAIN/gauplus.txt" "$DOMAIN/waybackurls.txt" "$DOMAIN/waymore.txt" "$DOMAIN/katana.txt"  2> /dev/null
-  cat "$DOMAIN/all_urls.txt" | unfurl -u domains | anew "$DOMAIN/subs.txt"
+  cat "$DOMAIN/all_urls.txt" | unfurl -u domains | anew "$DOMAIN/subs_t.txt"
 
 step "FILTERING"
 
-  httpx -l "$DOMAIN/subs.txt" -silent -sc -t "$HTTPX_THREADS" -o "$DOMAIN/subs_httpx.txt" > /dev/null 2>&1
+  httpx -l "$DOMAIN/subs_t.txt" -silent -sc -t "$HTTPX_THREADS" -o "$DOMAIN/subs.txt" > /dev/null 2>&1
 
-  grep -E '\.js([?#].*)?$' "$DOMAIN/all_urls.txt" | uro | anew "$DOMAIN/js_files.txt" > /dev/null
-  grep -E '\.(sql|db|bak|backup|old|tar|gz|tgz|zip|rar|7z|log|ini|conf|config|env|json|yml|yaml|pem|crt|key|htpasswd|htaccess|swp|swo|dump|dmp|gitignore|gitconfig|gitmodules|gitattributes|dockerfile|dat)' \
-    | anew "$DOMAIN/sensitive_files.txt" > /dev/null
-  cat "$DOMAIN/all_urls.txt" | gf ssrf | anew "$DOMAIN/ssrf_urls.txt" > /dev/null
-  cat "$DOMAIN/all_urls.txt" | gf sqli | anew "$DOMAIN/sqli_urls.txt" > /dev/null
-  rm "$DOMAIN/all_urls.txt"
+  grep -E '\.js([?#].*)?$' "$DOMAIN/all_urls.txt" | uro | anew "$DOMAIN/js.txt" > /dev/null
+  cat "$DOMAIN/all_urls.txt" | gf interestingEXT | anew "$DOMAIN/interesting.txt" > /dev/null
+  cat "$DOMAIN/all_urls.txt" | gf ssrf | anew "$DOMAIN/ssrf.txt" > /dev/null
+  cat "$DOMAIN/all_urls.txt" | gf sqli | anew "$DOMAIN/sqli.txt" > /dev/null
+  rm  "$DOMAIN/all_urls.txt"
 
 
 step "SUMMARY"
 
-  log_ok "$DOMAIN/subs_httpx.txt: $(count "$DOMAIN/subs_httpx.txt") lines"
-  log_ok "$DOMAIN/sensitive_files.txt: $(count "$DOMAIN/sensitive_files.txt") lines"
-  log_ok "$DOMAIN/js_files.txt: $(count "$DOMAIN/js_files.txt") lines"
-  log_ok "$DOMAIN/ssrf_urls.txt: $(count "$DOMAIN/ssrf_urls.txt") lines"
-  log_ok "$DOMAIN/sqli_urls.txt: $(count "$DOMAIN/sqli_urls.txt") lines"
+  log_ok "$DOMAIN/subs.txt: $(count "$DOMAIN/subs.txt") lines"
+  log_ok "$DOMAIN/interesting.txt: $(count "$DOMAIN/interesting.txt") lines"
+  log_ok "$DOMAIN/js.txt: $(count "$DOMAIN/js.txt") lines"
+  log_ok "$DOMAIN/ssrf.txt: $(count "$DOMAIN/ssrf.txt") lines"
+  log_ok "$DOMAIN/sqli.txt: $(count "$DOMAIN/sqli.txt") lines"
   echo "===================================================="
 
 log_ok "done."
