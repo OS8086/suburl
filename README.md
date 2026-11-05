@@ -124,11 +124,10 @@ All results are saved under a directory named after the target domain:
 ```
 <domain>/
 ├── subs.txt            # All discovered subdomains
-├── subs_httpx.txt       # Live subdomains with status codes
-├── js_files.txt         # Discovered JavaScript files
-├── sensitive_files.txt  # Potential sensitive/backup/config files
-├── ssrf_urls.txt         # URLs matching SSRF gf pattern
-└── sqli_urls.txt         # URLs matching SQLi gf pattern
+├── js.txt         # Discovered JavaScript files
+├── interesting.txt  # Potential sensitive/backup/config files
+├── ssrf.txt         # URLs matching SSRF gf pattern
+└── sqli.txt         # URLs matching SQLi gf pattern
 ```
 
 ## Disclaimer
